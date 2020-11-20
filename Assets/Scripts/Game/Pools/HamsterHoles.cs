@@ -1,36 +1,35 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class HamsterHoles : MonoBehaviour
 {
-    [SerializeField] private Transform[] transformHoles;
+    [SerializeField] private Transform[] _transformHoles;
 
-    private List<Vector2> listPositionHoles;
+    private List<Vector2> _listPositionHoles;
 
     private void Awake()
     {
-        listPositionHoles = new List<Vector2>();
+        _listPositionHoles = new List<Vector2>();
 
-        foreach (var item in transformHoles)
+        foreach (var item in _transformHoles)
         {
-            listPositionHoles.Add(item.position);
+            _listPositionHoles.Add(item.position);
         }
 
-        transformHoles = null;
+        _transformHoles = null;
     }
 
     public Vector2 GetPositionHole()
     {
-        int rndPos = Random.Range(0, listPositionHoles.Count);
-        Vector2 position = listPositionHoles[rndPos];
-        listPositionHoles.RemoveAt(rndPos);
+        int rndPos = Random.Range(0, _listPositionHoles.Count);
+        Vector2 position = _listPositionHoles[rndPos];
+        _listPositionHoles.RemoveAt(rndPos);
 
         return position;
     }
 
     public void DropPositionHole(Vector2 positionHole)
     {
-        listPositionHoles.Add(positionHole);
+        _listPositionHoles.Add(positionHole);
     }
 }

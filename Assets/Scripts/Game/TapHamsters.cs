@@ -1,22 +1,24 @@
 ﻿using UnityEngine;
 
-public class TapHamsters : MonoBehaviour
+namespace HamsterThieves.Game
 {
-    private void Update()
+    public class TapHamsters : MonoBehaviour
     {
-        if (Time.timeScale == 0)
-            return;
+        private void Update()
+        {
+            if (Time.timeScale == 0)
+                return;
 
 #if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.up);
-
-            if (hit.collider != null)
+            if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                hit.collider.gameObject.GetComponent<Hamster>().TapHamster();
+                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.up);
+
+                if (hit.collider != null)
+                {
+                    hit.collider.gameObject.GetComponent<Hamster>().TapHamster();
+                }
             }
-        }
 #endif
 
 #if UNITY_ANDROID
@@ -35,5 +37,6 @@ public class TapHamsters : MonoBehaviour
             }
         }
 #endif
+        }
     }
 }

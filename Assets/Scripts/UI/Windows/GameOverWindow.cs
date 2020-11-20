@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using HamsterThieves.Game;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace HamsterThieves.UI
@@ -6,7 +7,6 @@ namespace HamsterThieves.UI
     public class GameOverWindow : MonoBehaviour
     {
         [SerializeField] private SceneTransitionWindow _prefSceneTransitionWindow;
-        [SerializeField] private GameCore _gameCore;
         [SerializeField] private Score _score;
         [SerializeField] private Text _txtScore;
         [Space(10)]
@@ -30,12 +30,19 @@ namespace HamsterThieves.UI
 
         private void Restart()
         {
-            _gameCore.RestartGame();
+            ShowSceneTransition(2);
         }
 
         private void ReturnHome()
         {
-            Instantiate(_prefSceneTransitionWindow, FindObjectOfType<Canvas>().transform).Show(1);
+            ShowSceneTransition(1);
+        }
+
+        private void ShowSceneTransition(int buildIndexScene)
+        {
+            Time.timeScale = 1f;
+
+            Instantiate(_prefSceneTransitionWindow, FindObjectOfType<Canvas>().transform).Show(buildIndexScene);
         }
     }
 }

@@ -1,45 +1,48 @@
-﻿using System;
+﻿using HamsterThieves.UI;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class GameCore : MonoBehaviour
+namespace HamsterThieves.Game
 {
-    [SerializeField] private GameObject panelGameOver;
-    [SerializeField] private SpawnerHamsters spawnerHamsters;
-    [SerializeField] private Timer timer;
-
-    [SerializeField] private Score score;
-
-    public event Action<int> OnScoreChange;
-    public event Action<int> OnHealthChange;
-
-    private void Start()
+    public class GameCore : MonoBehaviour
     {
-        StartCoroutine(CoroutineStartGame());
-    }
+        [SerializeField] private GameObject _gameOverWindow;
+        [SerializeField] private SpawnerHamsters _spawnerHamsters;
+        [SerializeField] private Timer _timer;
 
-    public void GameOver()
-    {
-        panelGameOver.SetActive(true);
+        [SerializeField] private Health _health;
 
-        spawnerHamsters.StopSpawn();
-    }
+        private void Awake()
+        {
+            _health.OnChangeData += GameOver;
+        }
 
-    public void RestartGame()
-    {
-        OnHealthChange?.Invoke(100);
-        OnScoreChange?.Invoke(-score.Value);
+        private void Start()
+        {
+            StartCoroutine(CoroutineStartGame());
+        }
 
-        StartCoroutine(CoroutineStartGame());
-    }
+        private void GameOver(object value)
+        {
+            if ((int)value != 0)
+                return;
 
-    private IEnumerator CoroutineStartGame()
-    {
-        yield return StartCoroutine(timer.CoroutineStartTimer());
+            _gameOverWindow.SetActive(true);
+            _spawnerHamsters.StopSpawn();
+        }
 
-        yield return new WaitForSeconds(1f);
+        private IEnumerator CoroutineStartGame()
+        {
+            yield return StartCoroutine(_timer.CoroutineStartTimer());
 
-        spawnerHamsters.StartSpawn();
+            yield return new WaitForSeconds(1f);
+
+            _spawnerHamsters.StartSpawn();
+        }
+
+        private void OnDestroy()
+        {
+            _health.OnChangeData -= GameOver;
+        }
     }
 }

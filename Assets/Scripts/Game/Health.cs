@@ -1,65 +1,44 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class Health : MonoBehaviour
+namespace HamsterThieves.Game
 {
-    [SerializeField] private GameCore gameCore;
-    [SerializeField] private SelectionHamster selectionHamster;
-
-    [SerializeField] private Text txtHealth;
-
-    public event Action<int> OnScoreChange;
-
-    private int healthPoints = 100;
-
-    private int HealthPoints
+    public class Health : AbstractDataValue
     {
-        get
-        {
-            return healthPoints;
-        }
+        [SerializeField] private Score _score;
 
-        set
-        {
-            if (value > 100)
-                healthPoints = 100;
-            else if (value < 0)
-                healthPoints = 0;
-            else
-                healthPoints = value;
-        }
-    }
+        public override event Action<object> OnChangeData;
 
-    private void ChangeHealth(int countHealht)
-    {
-        if (HealthPoints == 100)
+        private const int _maxHealth = 100;
+
+        private int _value = 100;
+        public int Value
         {
-            if (countHealht > 0)
+            get => _value;
+            private set
             {
-                OnScoreChange?.Invoke(countHealht);
-                return;
+                _value = value;
+                OnChangeData?.Invoke(_value);
             }
         }
 
-        HealthPoints += countHealht;
-        txtHealth.text = HealthPoints.ToString();
-
-        if (HealthPoints == 0)
+        public void ChangeHealth(int value)
         {
-            gameCore.GameOver();
+            int newValue = _value + value;
+
+            if (newValue > _maxHealth)
+            {
+                Value = _maxHealth;
+                _score.Value += newValue - _maxHealth;
+            }
+            else if (newValue < 0)
+            {
+                Value = 0;
+            }
+            else
+            {
+                Value = newValue;
+            }
         }
-    }
-
-    private void OnEnable()
-    {
-        gameCore.OnHealthChange += ChangeHealth;
-        selectionHamster.OnHealthChange += ChangeHealth;
-    }
-
-    private void OnDisable()
-    {
-        gameCore.OnHealthChange -= ChangeHealth;
-        selectionHamster.OnHealthChange -= ChangeHealth;
     }
 }

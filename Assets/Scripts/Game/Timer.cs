@@ -3,52 +3,55 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Timer : MonoBehaviour
+namespace HamsterThieves.UI
 {
-    [SerializeField] private Text _txtTimer;
-
-    private Coroutine _coroutineTimer;
-
-    private void Awake()
+    public class Timer : MonoBehaviour
     {
-        _txtTimer.gameObject.SetActive(false);
-        _txtTimer.text = null;
-    }
+        [SerializeField] private Text _txtTimer;
 
-    public void StartTimer()
-    {
-        if (_coroutineTimer != null)
+        private Coroutine _coroutineTimer;
+
+        private void Awake()
         {
-            StopCoroutine(_coroutineTimer);
+            _txtTimer.gameObject.SetActive(false);
+            _txtTimer.text = null;
         }
 
-        _coroutineTimer = StartCoroutine(CoroutineStartTimer());
-    }
-
-    public IEnumerator CoroutineStartTimer()
-    {
-        _txtTimer.gameObject.SetActive(true);
-
-        Time.timeScale = 1;
-
-        int countSecond = 3;
-
-        while (countSecond != 0)
+        public void StartTimer()
         {
+            if (_coroutineTimer != null)
+            {
+                StopCoroutine(_coroutineTimer);
+            }
+
+            _coroutineTimer = StartCoroutine(CoroutineStartTimer());
+        }
+
+        public IEnumerator CoroutineStartTimer()
+        {
+            _txtTimer.gameObject.SetActive(true);
+
+            Time.timeScale = 1;
+
+            int countSecond = 3;
+
+            while (countSecond != 0)
+            {
+                yield return new WaitForSeconds(1);
+                _txtTimer.text = countSecond.ToString();
+
+                countSecond--;
+            }
+
             yield return new WaitForSeconds(1);
-            _txtTimer.text = countSecond.ToString();
 
-            countSecond--;
+            GameManager.Audio.PlaySound(TypeSound.HamsterGo);
+            _txtTimer.text = "Go!";
+
+            yield return new WaitForSeconds(1);
+
+            _txtTimer.text = null;
+            _txtTimer.gameObject.SetActive(false);
         }
-
-        yield return new WaitForSeconds(1);
-
-        GameManager.Audio.PlaySound(TypeSound.HamsterGo);
-        _txtTimer.text = "Go!";
-
-        yield return new WaitForSeconds(1);
-
-        _txtTimer.text = null;
-        _txtTimer.gameObject.SetActive(false);
     }
 }

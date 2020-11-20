@@ -1,33 +1,20 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using System;
 
-public class Score : MonoBehaviour
+namespace HamsterThieves.Game
 {
-    [SerializeField] private Health health;
-    [SerializeField] private GameCore gameCore;
-    [SerializeField] private SelectionHamster selectionHamster;
-
-    [SerializeField] private Text txtScore;
-
-    public int Value { get; private set; }
-
-    private void ChangeValue(int value = 0)
+    public class Score : AbstractDataValue
     {
-        Value += value;
-        txtScore.text = Value.ToString();
-    }
+        public override event Action<object> OnChangeData;
 
-    private void OnEnable()
-    {
-        health.OnScoreChange += ChangeValue;
-        gameCore.OnScoreChange += ChangeValue;
-        selectionHamster.OnScoreChange += ChangeValue;
-    }
-
-    private void OnDisable()
-    {
-        health.OnScoreChange -= ChangeValue;
-        gameCore.OnScoreChange -= ChangeValue;
-        selectionHamster.OnScoreChange -= ChangeValue;
+        private int _value;
+        public int Value
+        {
+            get => _value;
+            set
+            {
+                _value = value;
+                OnChangeData?.Invoke(_value);
+            }
+        }
     }
 }

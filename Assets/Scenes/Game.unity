@@ -605,9 +605,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8b8a2a3d3ffc42478a143541e90aa50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefHamster: {fileID: 3198704906679956595, guid: 5c6364dfd5b6341429f298b060c745f4,
+  _prefHamster: {fileID: 3790700172207133297, guid: 5c6364dfd5b6341429f298b060c745f4,
     type: 3}
-  trParentHamsters: {fileID: 321342871}
+  _health: {fileID: 1864449044}
+  _score: {fileID: 1781221459}
 --- !u!4 &321342871
 Transform:
   m_ObjectHideFlags: 0
@@ -2529,7 +2530,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dffd140747075d842aecc09a8fa751dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transformHoles:
+  _transformHoles:
   - {fileID: 407817811}
   - {fileID: 1033393542}
   - {fileID: 287862428}
@@ -3350,10 +3351,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06bb5218eabdff54c90b128dfe9b1f37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelGameOver: {fileID: 2040345386}
-  spawnerHamsters: {fileID: 1745223678}
-  timer: {fileID: 990750340}
-  score: {fileID: 1781221459}
+  _gameOverWindow: {fileID: 2040345386}
+  _spawnerHamsters: {fileID: 1745223678}
+  _timer: {fileID: 990750340}
+  _health: {fileID: 1864449044}
 --- !u!4 &1745223677
 Transform:
   m_ObjectHideFlags: 0
@@ -3380,11 +3381,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 805301ffff0f9374491aab82615b19fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolHamsters: {fileID: 321342870}
-  poolHamsterHoles: {fileID: 1126809912}
-  selectionHamster: {fileID: 1745223680}
-  complexityGame: {fileID: 1745223679}
-  score: {fileID: 1781221459}
+  _poolHamsters: {fileID: 321342870}
+  _poolHamsterHoles: {fileID: 1126809912}
+  _selectionHamster: {fileID: 1745223680}
+  _complexityGame: {fileID: 1745223679}
+  _score: {fileID: 1781221459}
 --- !u!114 &1745223679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3498,15 +3499,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d80bbf8e61550354a87640291641c5b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: {fileID: 1864449044}
-  score: {fileID: 1781221459}
-  listRuntimeAnimatorController:
-  - {fileID: 9100000, guid: 16ba149731978a24786697de7e81247f, type: 2}
-  - {fileID: 9100000, guid: 3dcc3e6df8e53624fba393f5db6642b0, type: 2}
-  - {fileID: 9100000, guid: 00e803567d934654d91cfdc49ccf2d4b, type: 2}
-  - {fileID: 9100000, guid: e12d06e227ee9064888aab2797ef3cf7, type: 2}
-  - {fileID: 9100000, guid: 9688cfc9f1f575f48b9a994fffbad0f2, type: 2}
-  - {fileID: 9100000, guid: 6504676f532713245a2fcf8932c525f5, type: 2}
+  _listDataHamster:
+  - {fileID: 11400000, guid: be73fa182a86c8147b878c20269d4c3f, type: 2}
+  - {fileID: 11400000, guid: 91bf00b7605b6dd4394bd70953523d26, type: 2}
+  - {fileID: 11400000, guid: b9fd697641ba284439c85a59bd6ffcca, type: 2}
+  - {fileID: 11400000, guid: 0581534bf2e58bf4c98e3a76ce25eec1, type: 2}
+  - {fileID: 11400000, guid: 72216a3de66145249afe135c7f7183cc, type: 2}
+  - {fileID: 11400000, guid: 039285a3c4cc2064fad05aa5a4790594, type: 2}
 --- !u!1 &1764615735
 GameObject:
   m_ObjectHideFlags: 0
@@ -3596,6 +3595,7 @@ GameObject:
   - component: {fileID: 1781221458}
   - component: {fileID: 1781221457}
   - component: {fileID: 1781221459}
+  - component: {fileID: 1781221460}
   m_Layer: 5
   m_Name: ScorePanel
   m_TagString: Untagged
@@ -3671,10 +3671,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d59b81c454df424b9fd406fe5c8beaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: {fileID: 1864449044}
-  gameCore: {fileID: 1745223676}
-  selectionHamster: {fileID: 1745223680}
-  txtScore: {fileID: 23085689}
+--- !u!114 &1781221460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781221455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 870edba671f26d14b9a3b0f2df99a4f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dataValue: {fileID: 1781221459}
+  _txtData: {fileID: 23085689}
 --- !u!1 &1830271245
 GameObject:
   m_ObjectHideFlags: 0
@@ -3717,6 +3727,7 @@ GameObject:
   - component: {fileID: 1864449043}
   - component: {fileID: 1864449042}
   - component: {fileID: 1864449044}
+  - component: {fileID: 1864449045}
   m_Layer: 5
   m_Name: HealthPanel
   m_TagString: Untagged
@@ -3792,9 +3803,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1590a513e67d01e419042da5c3f580b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameCore: {fileID: 1745223676}
-  selectionHamster: {fileID: 1745223680}
-  txtHealth: {fileID: 686607118}
+  _score: {fileID: 1781221459}
+--- !u!114 &1864449045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1864449040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 870edba671f26d14b9a3b0f2df99a4f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dataValue: {fileID: 1864449044}
+  _txtData: {fileID: 686607118}
 --- !u!1 &1872657036
 GameObject:
   m_ObjectHideFlags: 0
@@ -4242,7 +4265,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _prefSceneTransitionWindow: {fileID: 7529422267337274157, guid: a3c2b13298653574e827a77879ab9be6,
     type: 3}
-  _gameCore: {fileID: 1745223676}
   _score: {fileID: 1781221459}
   _txtScore: {fileID: 1241678048}
   _restartButton: {fileID: 2086985526}

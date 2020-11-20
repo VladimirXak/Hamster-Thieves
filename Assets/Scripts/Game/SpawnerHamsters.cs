@@ -2,95 +2,97 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnerHamsters : MonoBehaviour
+namespace HamsterThieves.Game
 {
-    [Header("Pools")]
-    [SerializeField] private PoolHamsters poolHamsters;
-    [SerializeField] private HamsterHoles poolHamsterHoles;
-    [Space(10)]
-    [SerializeField] private SelectionHamster selectionHamster;
-    [SerializeField] private ComplexityGame complexityGame;
-    [SerializeField] private Score score;
-
-    private List<GameObject> listHamsters;
-    private Coroutine coroutineSpawnHamsters;
-    private Coroutine coroutineWainEmptyListHamster;
-
-    private void Awake()
+    public class SpawnerHamsters : MonoBehaviour
     {
-        listHamsters = new List<GameObject>();
-    }
+        [SerializeField] private PoolHamsters _poolHamsters;
+        [SerializeField] private HamsterHoles _poolHamsterHoles;
+        [Space(10)]
+        [SerializeField] private SelectionHamster _selectionHamster;
+        [SerializeField] private ComplexityGame _complexityGame;
+        [SerializeField] private Score _score;
 
-    public void StartSpawn()
-    {
-        if (coroutineWainEmptyListHamster != null)
-            StopCoroutine(coroutineWainEmptyListHamster);
+        private List<Hamster> _listHamsters;
+        private Coroutine _coroutineSpawnHamsters;
+        private Coroutine _coroutineWainEmptyListHamster;
 
-        if (coroutineSpawnHamsters != null)
-            StopCoroutine(coroutineSpawnHamsters);
-
-        coroutineSpawnHamsters = StartCoroutine(CoroutineSpawnHamsters());
-    }
-
-    public void StopSpawn()
-    {
-        Time.timeScale = 0;
-
-        if (coroutineWainEmptyListHamster != null)
-            StopCoroutine(coroutineWainEmptyListHamster);
-
-        if (coroutineSpawnHamsters != null)
-            StopCoroutine(coroutineSpawnHamsters);
-
-        foreach (var hamster in listHamsters)
+        private void Awake()
         {
-            hamster.SetActive(false);
-            poolHamsterHoles.DropPositionHole(hamster.transform.position);
+            _listHamsters = new List<Hamster>();
         }
 
-        listHamsters.Clear();
-    }
-
-    private IEnumerator CoroutineSpawnHamsters()
-    {
-        while (true)
+        public void StartSpawn()
         {
-            SpawnHamsters();
-            yield return StartCoroutine(CoroutineWaitEmptyListHamster());
-            yield return new WaitForSeconds(0.5f);
+            if (_coroutineWainEmptyListHamster != null)
+                StopCoroutine(_coroutineWainEmptyListHamster);
+
+            if (_coroutineSpawnHamsters != null)
+                StopCoroutine(_coroutineSpawnHamsters);
+
+            _coroutineSpawnHamsters = StartCoroutine(CoroutineSpawnHamsters());
         }
-    }
 
-    private IEnumerator CoroutineWaitEmptyListHamster()
-    {
-        while (listHamsters.Count != 0)
+        public void StopSpawn()
         {
-            foreach (GameObject goHamster in listHamsters)
+            Time.timeScale = 0;
+
+            if (_coroutineWainEmptyListHamster != null)
+                StopCoroutine(_coroutineWainEmptyListHamster);
+
+            if (_coroutineSpawnHamsters != null)
+                StopCoroutine(_coroutineSpawnHamsters);
+
+            foreach (var hamster in _listHamsters)
             {
-                if (!goHamster.activeSelf)
-                {
-                    poolHamsterHoles.DropPositionHole(goHamster.transform.position);
-                    listHamsters.Remove(goHamster);
-                    break;
-                }
+                hamster.gameObject.SetActive(false);
+                _poolHamsterHoles.DropPositionHole(hamster.transform.position);
             }
 
-            yield return null;
+            _listHamsters.Clear();
         }
-    }
 
-    private void SpawnHamsters()
-    {
-        complexityGame.ChangeComplexity(score.Value);
-
-        for (int i = 0; i < Random.Range(complexityGame.MinCountEnemy, complexityGame.MaxCountEnemy); i++)
+        private IEnumerator CoroutineSpawnHamsters()
         {
-            GameObject goHamster = poolHamsters.GetUnit();
-            goHamster.transform.position = poolHamsterHoles.GetPositionHole();
+            while (true)
+            {
+                SpawnHamsters();
+                yield return StartCoroutine(CoroutineWaitEmptyListHamster());
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
 
-            selectionHamster.SelectionRandomHamster(goHamster);
+        private IEnumerator CoroutineWaitEmptyListHamster()
+        {
+            while (_listHamsters.Count != 0)
+            {
+                foreach (Hamster goHamster in _listHamsters)
+                {
+                    if (!goHamster.gameObject.activeSelf)
+                    {
+                        _poolHamsterHoles.DropPositionHole(goHamster.transform.position);
+                        _listHamsters.Remove(goHamster);
+                        break;
+                    }
+                }
 
-            listHamsters.Add(goHamster);
+                yield return null;
+            }
+        }
+
+        private void SpawnHamsters()
+        {
+            _complexityGame.ChangeComplexity(_score.Value);
+
+            for (int i = 0; i < Random.Range(_complexityGame.MinCountEnemy, _complexityGame.MaxCountEnemy); i++)
+            {
+                Hamster hamster = _poolHamsters.GetUnit();
+                hamster.transform.position = _poolHamsterHoles.GetPositionHole();
+
+                _selectionHamster.SelectionRandomHamster(hamster);
+
+                _listHamsters.Add(hamster);
+            }
         }
     }
 }
